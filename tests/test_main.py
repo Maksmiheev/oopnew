@@ -1,5 +1,7 @@
 import unittest
+
 from src.main import Category, Product
+
 
 class TestProductCategory(unittest.TestCase):
 
@@ -9,7 +11,9 @@ class TestProductCategory(unittest.TestCase):
         Category.product_count = 0
 
         # Создаем продукты для тестов
-        self.product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+        self.product1 = Product(
+            "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
+        )
         self.product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
         self.product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
         self.product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
@@ -21,7 +25,11 @@ class TestProductCategory(unittest.TestCase):
         self.assertEqual(self.product1.quantity, 5)
 
     def test_category_creation_and_counts(self):
-        category = Category("Смартфоны", "Описание категории", [self.product1, self.product2, self.product3])
+        category = Category(
+            "Смартфоны",
+            "Описание категории",
+            [self.product1, self.product2, self.product3],
+        )
         self.assertEqual(category.name, "Смартфоны")
         self.assertEqual(category.description, "Описание категории")
         self.assertEqual(len(category.products), 3)
@@ -50,6 +58,7 @@ class TestProductCategory(unittest.TestCase):
 
         self.assertEqual(Category.category_count, initial_category_count + 1)
         self.assertEqual(Category.product_count, initial_product_count + 1)
+
 
 if __name__ == "__main__":
     unittest.main()

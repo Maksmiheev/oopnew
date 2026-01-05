@@ -23,3 +23,17 @@ lint = [
     "black (>=25.12.0,<26.0.0)",
     "isort (>=7.0.0,<8.0.0)"
 ]
+
+[tool.flake8]
+line-length = 119
+
+
+[tool.black]
+line-length = 119
+exclude = '.git'
+
+
+[tool.mypy]
+disallow_any_unimported = true
+warn_return_any = true
+exclude = 'venv'

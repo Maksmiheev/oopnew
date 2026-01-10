@@ -45,7 +45,7 @@ class TestCategory(unittest.TestCase):
     def test_get_products_list(self):
         self.category.add_product(self.product1)
         expected_output = ["iPhone 14 Pro Max, 120000.00 руб. Остаток: 10 шт."]
-        self.assertListEqual(expected_output, self.category.get_products_list().split("\n"))
+        self.assertListEqual(expected_output, self.category.get_products_list.strip().split("\n"))
 
     def test_category_count_and_product_count(self):
         initial_categories = Category._category_count

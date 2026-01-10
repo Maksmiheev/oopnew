@@ -3,13 +3,14 @@ class Product:
         """Класс для представления продуктов."""
         self.name = name
         self.description = description
-        self._price = price  # Сделали цену приватной
+        self.__price = price
         self.quantity = quantity
+
 
     @property
     def price(self):
         """Геттер для цены."""
-        return self._price
+        return self.__price
 
     @price.setter
     def price(self, value):
@@ -17,7 +18,7 @@ class Product:
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
-            self._price = value
+            self.__price = value
 
     @classmethod
     def new_product(cls, data_dict):
@@ -28,8 +29,8 @@ class Product:
 
 
 class Category:
-    _category_count = 0  # Приватный статический счётчик категорий
-    _product_count = 0  # Приватный статический счётчик товаров
+    _category_count = 0
+    _product_count = 0
 
     def __init__(self, name, description, products=None):
         """Класс для представления категорий."""
@@ -41,6 +42,14 @@ class Category:
             for prod in products:
                 self.add_product(prod)
 
+    @property
+    def get_products_list(self):
+        """Получение списка товаров в виде строк."""
+        result = ""
+        for product in self.__products:
+            result += f"{product.name}, {product.price:.2f} руб. Остаток: {product.quantity} шт.\n"
+        return result
+
     def add_product(self, product):
         """Добавление товара в категорию."""
         if isinstance(product, Product):
@@ -49,12 +58,6 @@ class Category:
         else:
             raise TypeError("Необходимо передать объект класса Product")
 
-    def get_products_list(self):
-        """Получение списка товаров в виде строк."""
-        result = []
-        for p in self.__products:
-            result.append(f"{p.name}, {p.price:.2f} руб. Остаток: {p.quantity} шт.")
-        return "\n".join(result)
 
     def get_products(self):
         """Возвращает список товаров (безопасно копируя его)."""

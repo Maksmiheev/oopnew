@@ -6,7 +6,6 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
-
     @property
     def price(self):
         """Геттер для цены."""
@@ -43,6 +42,14 @@ class Category:
                 self.add_product(prod)
 
     @property
+    def products(self):
+        return self.__products[:]
+
+    @property
+    def product_count(self):
+        return Category._product_count
+
+    @property
     def get_products_list(self):
         """Получение списка товаров в виде строк."""
         result = ""
@@ -57,7 +64,6 @@ class Category:
             Category._product_count += 1
         else:
             raise TypeError("Необходимо передать объект класса Product")
-
 
     def get_products(self):
         """Возвращает список товаров (безопасно копируя его)."""
@@ -75,10 +81,11 @@ if __name__ == "__main__":
         [product1, product2, product3],
     )
 
-    print(category1.get_products())
+    print(category1.products)
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
     category1.add_product(product4)
-    print(category1.get_products())
+    print(category1.products)
+    print(category1.product_count)
 
     new_product = Product.new_product(
         {

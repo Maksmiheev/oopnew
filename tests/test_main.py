@@ -92,7 +92,8 @@ class TestProductMagicMethods(unittest.TestCase):
         # При сложении с объектом другого типа должен вернуться NotImplemented
         self.assertEqual(self.product1.__add__(10), NotImplemented)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
 
 if __name__ == "__main__":

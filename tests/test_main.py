@@ -64,5 +64,36 @@ class TestCategory(unittest.TestCase):
         self.assertNotEqual(original_products, self.category.get_products())  # Проверка, что оригинал не изменился
 
 
+class TestProductMagicMethods(unittest.TestCase):
+
+    def setUp(self):
+        self.product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+        self.product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+        self.product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
+    def test_str(self):
+        expected = "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
+        self.assertEqual(str(self.product1), expected)
+
+    def test_repr(self):
+        # __repr__ возвращает то же, что и __str__
+        self.assertEqual(repr(self.product2), str(self.product2))
+
+    def test_add(self):
+        result = self.product1 + self.product2
+        expected = (180000.0 * 5) + (210000.0 * 8)
+        self.assertEqual(result, expected)
+
+        result2 = self.product1 + self.product3
+        expected2 = (180000.0 * 5) + (31000.0 * 14)
+        self.assertEqual(result2, expected2)
+
+    def test_add_with_wrong_type(self):
+        # При сложении с объектом другого типа должен вернуться NotImplemented
+        self.assertEqual(self.product1.__add__(10), NotImplemented)
+
+if __name__ == '__main__':
+    unittest.main()
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,6 @@
 import unittest
 
-from src.main import Category, Product
+from src.main import Category, LawnGrass, Product, Smartphone
 
 
 class TestProduct(unittest.TestCase):
@@ -88,13 +88,73 @@ class TestProductMagicMethods(unittest.TestCase):
         expected2 = (180000.0 * 5) + (31000.0 * 14)
         self.assertEqual(result2, expected2)
 
-    def test_add_with_wrong_type(self):
-        # При сложении с объектом другого типа должен вернуться NotImplemented
-        self.assertEqual(self.product1.__add__(10), NotImplemented)
 
+class TestProductAndCategory(unittest.TestCase):
 
-if __name__ == "__main__":
-    unittest.main()
+    def setUp(self):
+        self.smartphone = Smartphone(
+            name="iPhone 13",
+            description="Смартфон Apple",
+            price=79999.0,
+            quantity=5,
+            efficiency="Высокая",
+            model="A2633",
+            memory="128GB",
+            color="Чёрный",
+        )
+        self.lawn_grass = LawnGrass(
+            name="Газонная трава",
+            description="Лучшее покрытие для газона",
+            price=1200.5,
+            quantity=10,
+            country="Украина",
+            germination_period="7 дней",
+            color="Зелёный",
+        )
+        self.category = Category(name="Электроника", description="Гаджеты и техника")
+
+    def test_smartphone_str(self):
+        s = str(self.smartphone)
+        self.assertIn("iPhone 13", s)
+        self.assertIn("Модель: A2633", s)
+        self.assertIn("Память: 128GB", s)
+        self.assertIn("Цвет: Чёрный", s)
+
+    def test_lawn_grass_str(self):
+        s = str(self.lawn_grass)
+        self.assertIn("Газонная трава", s)
+        self.assertIn("Страна: Украина", s)
+        self.assertIn("Срок прорастания: 7 дней", s)
+        self.assertIn("Цвет: Зелёный", s)
+
+    def test_add_product_correct(self):
+        self.category.add_product(self.smartphone)
+        self.category.add_product(self.lawn_grass)
+        self.assertIn(self.smartphone, self.category.products)
+        self.assertIn(self.lawn_grass, self.category.products)
+        self.assertEqual(len(self.category.products), 2)
+
+    def test_add_product_invalid_type(self):
+        with self.assertRaises(TypeError):
+            self.category.add_product("Не продукт")
+
+    def test_product_price_setter(self):
+        self.smartphone.price = 50000
+        self.assertEqual(self.smartphone.price, 50000)
+        # Попытка установить отрицательную цену не должна изменить цену
+        self.smartphone.price = -100
+        self.assertEqual(self.smartphone.price, 50000)  # Цена осталась прежней
+
+    def test_product_add_same_class(self):
+        sp2 = Smartphone("Samsung Galaxy", "Смартфон Samsung", 55999.99, 3, "Средняя", "S21", "256GB", "Белый")
+        total_value = self.smartphone + sp2
+        expected = self.smartphone.price * self.smartphone.quantity + sp2.price * sp2.quantity
+        self.assertEqual(total_value, expected)
+
+    def test_product_add_different_class_raises(self):
+        with self.assertRaises(TypeError):
+            _ = self.smartphone + self.lawn_grass
+
 
 if __name__ == "__main__":
     unittest.main()

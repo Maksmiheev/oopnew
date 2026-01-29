@@ -1,7 +1,7 @@
 import unittest
-from abc import ABC
 
-from src.main import Category, LawnGrass, Product, Smartphone, DebugInitMixin, BaseProduct
+
+from src.main import Category, LawnGrass, Product, Smartphone
 
 
 class TestProduct(unittest.TestCase):

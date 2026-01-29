@@ -1,6 +1,7 @@
 import unittest
+from abc import ABC
 
-from src.main import Category, LawnGrass, Product, Smartphone
+from src.main import Category, LawnGrass, Product, Smartphone, DebugInitMixin, BaseProduct
 
 
 class TestProduct(unittest.TestCase):
@@ -156,5 +157,30 @@ class TestProductAndCategory(unittest.TestCase):
             _ = self.smartphone + self.lawn_grass
 
 
-if __name__ == "__main__":
-    unittest.main()
+class TestBaseProduct(unittest.TestCase):
+    def setUp(self):
+        # Используем конкретный класс ConcreteProduct
+        self.product = Product('Test', 'Тестовый продукт', 100, 5)
+
+    def test_properties(self):
+        # Проверяем базовые свойства
+        self.assertEqual(self.product.name, 'Test')
+        self.assertEqual(self.product.description, 'Тестовый продукт')
+        self.assertEqual(self.product.price, 100)
+        self.assertEqual(self.product.quantity, 5)
+
+    def test_str_repr(self):
+        # Проверяем представление строки
+        expected_output = 'Test, 100 руб. Остаток: 5 шт.'
+        self.assertEqual(str(self.product), expected_output)
+        self.assertEqual(repr(self.product), expected_output)
+
+    def test_add_operator(self):
+        # Проверяем операцию добавления двух экземпляров
+        another_product = Product('Another', 'Другой тестовый продукт', 50, 10)
+        result = self.product + another_product
+        self.assertEqual(result, 100 * 5 + 50 * 10)
+
+
+
+

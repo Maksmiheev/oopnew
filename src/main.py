@@ -40,9 +40,9 @@ class BaseProduct(ABC):
 
 
 class DebugInitMixin:
-    def __init__(self, *args, **kwargs):
-        print(f"Создан объект класса {self.__class__.__name__} с args={args} kwargs={kwargs}")
-        super().__init__(*args, **kwargs)
+    def __repr__(self):
+        base_repr = super().__repr__()  # вызов __repr__ родительского класса
+        return f"{base_repr} (Debug: создан объект класса {self.__class__.__name__})"
 
 
 

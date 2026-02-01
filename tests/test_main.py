@@ -181,6 +181,23 @@ class TestBaseProduct(unittest.TestCase):
         result = self.product + another_product
         self.assertEqual(result, 100 * 5 + 50 * 10)
 
+def test_middle_price():
+    # Создаем категорию без товаров - ожидаем 0
+    cat_empty = Category("Пустая", "Нет товаров")
+    assert cat_empty.middle_price() == 0, "Ошибка: для пустой категории должен возвращаться 0"
 
+    # Создаем товары с разными ценами
+    p1 = Product("Товар1", "Описание1", 100, 5)
+    p2 = Product("Товар2", "Описание2", 200, 3)
+    p3 = Product("Товар3", "Описание3", 300, 2)
+
+    # Добавляем товары в категорию
+    cat = Category("Категория", "Описание категории", products=[p1, p2, p3])
+
+    # Средняя цена: (100 + 200 + 300) / 3 = 200
+    expected_avg = (100 + 200 + 300) / 3
+    assert abs(cat.middle_price() - expected_avg) < 1e-6, f"Ошибка: ожидали {expected_avg}, получили {cat.middle_price()}"
+
+    print("Все тесты пройдены успешно!")
 
 
